@@ -1,0 +1,88 @@
+.fileInputContainer {
+    display: flex;
+    background-color: #27548a;
+    border-radius: 20px;
+    min-width: 250px;
+    max-width: 350px;
+    height: 400px;
+    justify-content: center;
+    align-items: center;
+    margin: 50px auto;
+}
+
+.fileInput,
+.fileDragEnter,
+.notSupportedFileFormat,
+.fileUploaded,
+.fileInputOverlay {
+    width: 300px;
+    height: 200px;
+    border-radius: 20px;
+}
+
+.fileDragEnter,
+.notSupportedFileFormat,
+.fileUploaded,
+.fileInputOverlay {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column wrap;
+}
+
+.fileInput {
+    position: relative;
+    opacity: 0;
+    z-index: 1;
+}
+
+.fileDragEnter {
+    background-color: #dda853;
+}
+
+.notSupportedFileFormat {
+    background-color: #be5b50;
+}
+
+.fileUploaded {
+    background-color: #a4b465;
+}
+
+.fileInputOverlay {
+    background-color: #f3f3e0;
+    border-radius: 1px solid black;
+}
+
+.deleteBtn:hover,
+.uploadBtn:hover {
+    opacity: 0.7;
+}
+
+.deleteBtn:active,
+.uploadBtn:active {
+    opacity: 0.7;
+    outline: black 1px solid;
+}
+
+.uploadBtn {
+    position: relative;
+    z-index: 2;
+    outline: black 2px solid;
+    background-color: #a4b465;
+    height: 20px;
+    padding: 3px 7px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.deleteBtn {
+    position: relative;
+    z-index: 2;
+    outline: black 2px solid;
+    background-color: #be5b50;
+    height: 20px;
+    padding: 3px 7px;
+    border-radius: 20px;
+    cursor: pointer;
+}
