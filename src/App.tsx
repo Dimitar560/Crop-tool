@@ -1,7 +1,12 @@
 import "./App.css";
+import UploadFile from "./components/elements/UploadFile/UploadFile";
 
 function App() {
-    return <></>;
+    return (
+        <>
+            <UploadFile />
+        </>
+    );
 }
 
 export default App;
