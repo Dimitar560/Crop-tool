@@ -73,39 +73,49 @@ export default function UploadFile() {
         setErrorDetection(true);
     }
 
+    function helperFormatText(helperFormatArr: string[]) {
+        return helperFormatArr.map((x) => x?.split("/")[1]).join(",");
+    }
+
     return (
         <div className={style.fileInputContainer}>
-            <input
-                id="fileUpload"
-                className={style.fileInput}
-                type="file"
-                onChange={(e) => !uploadFile && onUploadHandler(e)}
-                onDragEnter={() => !uploadFile && setStyleSwitcher(style.fileDragEnter)}
-                onDragLeave={() => !uploadFile && setStyleSwitcher(style.fileInputOverlay)}
-                ref={dropAreaRef}
-            />
-            <span className={styleSwitcher}>
-                {uploadFile ? <span>{uploadFile.fileName}</span> : <span>{hintText}</span>}
-                {uploadFile && (
-                    <span
-                        className={style.deleteBtn}
-                        onClick={() => deleteHandler()}
-                    >
-                        Delete
-                    </span>
-                )}
-                {!uploadFile && (
-                    <div>
-                        <p>or...</p>
-                        <label
-                            className={style.uploadBtn}
-                            htmlFor="fileUpload"
+            <div>
+                <input
+                    id="fileUpload"
+                    className={style.fileInput}
+                    type="file"
+                    onChange={(e) => !uploadFile && onUploadHandler(e)}
+                    onDragEnter={() => !uploadFile && setStyleSwitcher(style.fileDragEnter)}
+                    onDragLeave={() => !uploadFile && setStyleSwitcher(style.fileInputOverlay)}
+                    ref={dropAreaRef}
+                />
+                <span className={styleSwitcher}>
+                    {uploadFile ? <span>{uploadFile.fileName}</span> : <span>{hintText}</span>}
+                    {uploadFile && (
+                        <span
+                            className={style.deleteBtn}
+                            onClick={() => deleteHandler()}
                         >
-                            Click to upload
-                        </label>
-                    </div>
-                )}
-            </span>
+                            Delete
+                        </span>
+                    )}
+                    {!uploadFile && (
+                        <div>
+                            <p>or...</p>
+                            <label
+                                className={style.uploadBtn}
+                                htmlFor="fileUpload"
+                            >
+                                Click to upload
+                            </label>
+                        </div>
+                    )}
+                </span>
+            </div>
+            <div className={style.helperTxt}>
+                <span>Supported file formats: {helperFormatText(fileFormatsArray)}</span>
+                <span>Max file size: {fileSizeLimit} MB</span>
+            </div>
         </div>
     );
 }
