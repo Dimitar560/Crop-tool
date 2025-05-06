@@ -1,22 +1,21 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import style from "./UploadFile.module.css";
 import useDropOutside from "../../hooks/useDropOutside";
 import fileSizeCheck from "../../helpers/fileSizeCheck";
 import fileFormatCheck from "../../helpers/fileFormatCheck";
+import { IFileUpload } from "../../views/CropImage";
 
-interface IFileUpload {
-    fileUpload: File | null;
-    fileName: string | null;
-    fileSize: number | null;
+interface IProps {
+    uploadFile: IFileUpload | null;
+    setUploadFile: Dispatch<SetStateAction<IFileUpload | null>>;
+    fileSizeLimit: number;
+    fileFormatsArray: string[];
 }
 
-export default function UploadFile() {
-    const [uploadFile, setUploadFile] = useState<IFileUpload | null>(null);
+export default function UploadFile({ uploadFile, setUploadFile, fileSizeLimit, fileFormatsArray }: IProps) {
     const [styleSwitcher, setStyleSwitcher] = useState(style.fileInputOverlay);
     const [hintText, setHintText] = useState("Drag'n'drop a file");
     const [errorDetection, setErrorDetection] = useState(false);
-    const fileFormatsArray = ["image/jpeg", "image/png", "image/webp"];
-    const fileSizeLimit = 10;
     const dropAreaRef = useRef<HTMLInputElement>(null);
     useDropOutside(dropAreaRef);
 
@@ -26,12 +25,19 @@ export default function UploadFile() {
             fileFormatCheck(e.target.files! && e.target.files[0].type, fileFormatsArray) &&
             fileSizeCheck(e.target.files! && e.target.files[0].size, fileSizeLimit)
         ) {
-            setStyleSwitcher(style.fileUploaded);
-            setUploadFile({
-                fileUpload: e.target.files && e.target.files[0],
-                fileName: e.target.files && e.target.files[0].name,
-                fileSize: e.target.files && e.target.files[0].size,
+            const file = e.target.files![0];
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                const imageUrl = reader.result?.toString() || "";
+                setUploadFile({
+                    fileUpload: e.target.files && e.target.files[0],
+                    fileName: e.target.files && e.target.files[0].name,
+                    fileSize: e.target.files && e.target.files[0].size,
+                    fileUrl: imageUrl,
+                });
             });
+            reader.readAsDataURL(file);
+            setStyleSwitcher(style.fileUploaded);
             setErrorDetection(false);
         } else {
             if (!fileSizeCheck(e.target.files! && e.target.files[0].size, fileSizeLimit)) {
@@ -89,7 +95,7 @@ export default function UploadFile() {
                     onDragLeave={() => !uploadFile && setStyleSwitcher(style.fileInputOverlay)}
                     ref={dropAreaRef}
                 />
-                <span className={styleSwitcher}>
+                <span className={`${styleSwitcher ? styleSwitcher : style.fileInputOverlay}`}>
                     {uploadFile ? <span>{uploadFile.fileName}</span> : <span>{hintText}</span>}
                     {uploadFile && (
                         <span
