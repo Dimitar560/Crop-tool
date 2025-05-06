@@ -1,6 +1,6 @@
 import ReactCrop, { centerCrop, Crop, makeAspectCrop } from "react-image-crop";
 import style from "./CropPreview.module.css";
-import { Dispatch, SetStateAction, SyntheticEvent } from "react";
+import { Dispatch, SetStateAction, SyntheticEvent, useRef } from "react";
 import { IFileUpload } from "../../views/CropImage";
 
 interface IProps {
@@ -22,8 +22,11 @@ export default function CropPreview({
     minDiamention,
     aspectRatio,
 }: IProps) {
+    const imgRef = useRef<HTMLImageElement>(null);
+
     function onImageLoad(e: SyntheticEvent<HTMLImageElement>) {
         const { width, height, naturalWidth, naturalHeight } = e.currentTarget;
+        imgRef.current = e.currentTarget;
         if (naturalWidth < minDiamention || naturalHeight < minDiamention) {
             setDimentionError(`Image must be ${minDiamention}x${minDiamention} pixels`);
             setUploadFile(null);
@@ -34,14 +37,54 @@ export default function CropPreview({
         setCrop(centredCrop);
     }
 
+    function getCroppedImg() {
+        if (!imgRef.current || !crop.width || !crop.height) return;
+
+        const canvas = document.createElement("canvas");
+        const scaleX = imgRef.current.naturalWidth / imgRef.current.width;
+        const scaleY = imgRef.current.naturalHeight / imgRef.current.height;
+        canvas.width = Math.round(crop.width * scaleX);
+        canvas.height = Math.round(crop.height * scaleY);
+        const ctx = canvas.getContext("2d");
+
+        ctx?.drawImage(
+            imgRef.current,
+            crop.x * scaleX,
+            crop.y * scaleY,
+            crop.width * scaleX,
+            crop.height * scaleY,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        canvas.toBlob((blob) => {
+            if (!blob) return;
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "cropped-image.jpg";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, "image/jpeg");
+        console.log("Crop values:", crop);
+        console.log("ScaleX:", scaleX, "ScaleY:", scaleY);
+    }
+
     return (
         <div className={style.cropContainer}>
-            <button onClick={() => setUploadFile(null)}>Clear image</button>
+            <div>
+                <button onClick={() => setUploadFile(null)}>Clear image</button>
+                <button onClick={() => getCroppedImg()}>Download Cropped Image</button>
+            </div>
             <ReactCrop
                 className={style.cropComponent}
                 crop={crop}
-                onChange={(_, prercentageCrop) => {
-                    setCrop(prercentageCrop);
+                onChange={(pixelCrop) => {
+                    setCrop(pixelCrop);
                 }}
                 keepSelection
                 aspect={aspectRatio}
