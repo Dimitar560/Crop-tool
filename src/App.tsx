@@ -1,10 +1,11 @@
 import "./App.css";
-import UploadFile from "./components/elements/UploadFile/UploadFile";
+import CropImage from "./components/views/CropImage";
+import "react-image-crop/dist/ReactCrop.css";
 
 function App() {
     return (
         <>
-            <UploadFile />
+            <CropImage />
         </>
     );
 }
