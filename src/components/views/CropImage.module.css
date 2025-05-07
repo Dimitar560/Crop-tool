@@ -1,0 +1,14 @@
+.errorTxt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #be5b50;
+}
+
+.inputContainer {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}

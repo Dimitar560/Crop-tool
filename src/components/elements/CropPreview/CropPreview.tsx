@@ -24,11 +24,16 @@ export default function CropPreview({
 }: IProps) {
     const imgRef = useRef<HTMLImageElement>(null);
 
+    // Image reader
+
     function onImageLoad(e: SyntheticEvent<HTMLImageElement>) {
         const { width, height, naturalWidth, naturalHeight } = e.currentTarget;
         imgRef.current = e.currentTarget;
         if (naturalWidth < minDiamention || naturalHeight < minDiamention) {
             setDimentionError(`Image must be ${minDiamention}x${minDiamention} pixels`);
+            setTimeout(() => {
+                setDimentionError("");
+            }, 5000);
             setUploadFile(null);
             return;
         }
@@ -36,6 +41,8 @@ export default function CropPreview({
         const centredCrop = centerCrop(crop, width, height);
         setCrop(centredCrop);
     }
+
+    // Download crop handler
 
     function getCroppedImg() {
         if (!imgRef.current || !crop.width || !crop.height) return;
@@ -70,15 +77,23 @@ export default function CropPreview({
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }, "image/jpeg");
-        console.log("Crop values:", crop);
-        console.log("ScaleX:", scaleX, "ScaleY:", scaleY);
     }
 
     return (
         <div className={style.cropContainer}>
-            <div>
-                <button onClick={() => setUploadFile(null)}>Clear image</button>
-                <button onClick={() => getCroppedImg()}>Download Cropped Image</button>
+            <div className={style.buttonContainer}>
+                <span
+                    className={style.clearBtn}
+                    onClick={() => setUploadFile(null)}
+                >
+                    Clear image
+                </span>
+                <span
+                    className={style.downloadBtn}
+                    onClick={() => getCroppedImg()}
+                >
+                    Download Cropped Image
+                </span>
             </div>
             <ReactCrop
                 className={style.cropComponent}
@@ -89,7 +104,7 @@ export default function CropPreview({
                 keepSelection
                 aspect={aspectRatio}
                 minWidth={minDiamention}
-                minHeight={150}
+                minHeight={minDiamention}
                 ruleOfThirds
             >
                 <img
