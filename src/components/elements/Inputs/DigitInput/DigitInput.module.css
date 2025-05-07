@@ -1,0 +1,17 @@
+.inputContainer {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.inputContainer > input {
+    padding-left: 15px;
+    height: 25px;
+    border-radius: 25px;
+    margin-top: 5px;
+    outline: none;
+    border: 1px solid black;
+}
+
+.inputContainer > label {
+    margin-left: 10px;
+}

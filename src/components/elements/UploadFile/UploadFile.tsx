@@ -4,6 +4,7 @@ import useDropOutside from "../../hooks/useDropOutside";
 import fileSizeCheck from "../../helpers/fileSizeCheck";
 import fileFormatCheck from "../../helpers/fileFormatCheck";
 import { IFileUpload } from "../../views/CropImage";
+import helperFormatText from "../../helpers/helperFormatText";
 
 interface IProps {
     uploadFile: IFileUpload | null;
@@ -77,10 +78,6 @@ export default function UploadFile({ uploadFile, setUploadFile, fileSizeLimit, f
         setHintText(errorText);
         setStyleSwitcher(errorStyle);
         setErrorDetection(true);
-    }
-
-    function helperFormatText(helperFormatArr: string[]) {
-        return helperFormatArr.map((x) => x?.split("/")[1]).join(",");
     }
 
     return (

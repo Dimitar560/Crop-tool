@@ -1,3 +1,5 @@
+/* Container */
+
 .fileInputContainer {
     position: relative;
     display: flex;
@@ -9,6 +11,8 @@
     margin: 50px auto;
     flex-flow: column wrap;
 }
+
+/* Shared styles drag and drop input */
 
 .fileInput,
 .fileDragEnter,
@@ -32,6 +36,8 @@
     flex-flow: column wrap;
 }
 
+/* Drag and drop input */
+
 .fileInput {
     position: absolute;
     opacity: 0;
@@ -54,6 +60,8 @@
     background-color: #f3f3e0;
     border-radius: 1px solid black;
 }
+
+/* Buttons */
 
 .deleteBtn:hover,
 .uploadBtn:hover {
@@ -87,6 +95,8 @@
     border-radius: 20px;
     cursor: pointer;
 }
+
+/* Helper text */
 
 .helperTxt {
     position: relative;

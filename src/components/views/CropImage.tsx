@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UploadFile from "../elements/UploadFile/UploadFile";
 import { Crop } from "react-image-crop";
 import CropPreview from "../elements/CropPreview/CropPreview";
+import DigitInput from "../elements/Inputs/DigitInput/DigitInput";
+import style from "./CropImage.module.css";
 
 export interface IFileUpload {
     fileUpload: File | null;
@@ -17,6 +19,9 @@ export default function CropImage() {
 
     const [dimentionError, setDimentionError] = useState("");
 
+    const [cropWidth, setCropWidth] = useState<string | null>(null);
+    const [cropHeight, setCropHeight] = useState<string | null>(null);
+
     const aspectRatio = 1;
     const minDiamention = 150;
 
@@ -28,18 +33,46 @@ export default function CropImage() {
         height: 670,
     });
 
+    // Crop width and height setters
+
+    useEffect(() => {
+        if (cropWidth) {
+            setCrop({ ...crop, width: +cropWidth });
+        }
+    }, [cropWidth]);
+
+    useEffect(() => {
+        if (cropHeight) {
+            setCrop({ ...crop, height: +cropHeight });
+        }
+    }, [cropHeight]);
+
     return (
         <>
             {uploadFile ? (
-                <CropPreview
-                    uploadFile={uploadFile}
-                    setUploadFile={setUploadFile}
-                    setDimentionError={setDimentionError}
-                    crop={crop}
-                    setCrop={setCrop}
-                    minDiamention={minDiamention}
-                    aspectRatio={aspectRatio}
-                />
+                <>
+                    <div className={style.inputContainer}>
+                        <DigitInput
+                            setDigitVal={setCropWidth}
+                            digitVal={cropWidth}
+                            labelText="Crop width"
+                        />
+                        <DigitInput
+                            setDigitVal={setCropHeight}
+                            digitVal={cropHeight}
+                            labelText="Crop height"
+                        />
+                    </div>
+                    <CropPreview
+                        uploadFile={uploadFile}
+                        setUploadFile={setUploadFile}
+                        setDimentionError={setDimentionError}
+                        crop={crop}
+                        setCrop={setCrop}
+                        minDiamention={minDiamention}
+                        aspectRatio={aspectRatio}
+                    />
+                </>
             ) : (
                 <UploadFile
                     uploadFile={uploadFile}
@@ -48,7 +81,7 @@ export default function CropImage() {
                     fileFormatsArray={fileFormatsArray}
                 />
             )}
-            {dimentionError && <span>{dimentionError}</span>}
+            {dimentionError && <span className={style.errorTxt}>{dimentionError}</span>}
         </>
     );
 }
