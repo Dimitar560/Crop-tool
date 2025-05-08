@@ -11,11 +11,11 @@ export default function useDropOutside(dropRef: React.RefObject<HTMLInputElement
     }
 
     useEffect(() => {
-        window.addEventListener("dragover", (e) => dropOutside(e), false);
-        window.addEventListener("drop", (e) => dropOutside(e), false);
+        window.addEventListener("dragover", () => dropOutside, false);
+        window.addEventListener("drop", () => dropOutside, false);
         return () => {
-            window.removeEventListener("dragover", (e) => dropOutside(e), false);
-            window.removeEventListener("drop", (e) => dropOutside(e), false);
+            window.removeEventListener("dragover", () => dropOutside, false);
+            window.removeEventListener("drop", () => dropOutside, false);
         };
     }, []);
 }

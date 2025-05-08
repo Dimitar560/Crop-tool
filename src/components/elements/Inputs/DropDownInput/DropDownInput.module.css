@@ -1,0 +1,18 @@
+.dropDownContainer {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 5px;
+}
+
+.dropDownContainer > label {
+    margin-left: 10px;
+}
+
+.dropDownInput {
+    padding: 7px;
+    border-radius: 25px;
+    outline: none;
+    border: 1px solid black;
+    max-width: 250px;
+    background-color: #fff;
+}

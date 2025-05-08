@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import UploadFile from "../elements/UploadFile/UploadFile";
 import { Crop } from "react-image-crop";
 import CropPreview from "../elements/CropPreview/CropPreview";
-import DigitInput from "../elements/Inputs/DigitInput/DigitInput";
 import style from "./CropImage.module.css";
+import CropInputs from "../elements/CropInputs/CropInputs";
 
 export interface IFileUpload {
     fileUpload: File | null;
@@ -21,6 +21,8 @@ export default function CropImage() {
 
     const [cropWidth, setCropWidth] = useState<string | null>(null);
     const [cropHeight, setCropHeight] = useState<string | null>(null);
+
+    const [selectedCropRatio, setSelectedCropRatio] = useState<string>("");
 
     const aspectRatio = 1;
     const minDiamention = 150;
@@ -47,22 +49,26 @@ export default function CropImage() {
         }
     }, [cropHeight]);
 
+    useEffect(() => {
+        if (selectedCropRatio) {
+            const selectedWidth = +selectedCropRatio.split?.("x")[0];
+            const selectedHeight = +selectedCropRatio.split?.("x")[1];
+            setCrop({ ...crop, width: selectedWidth, height: selectedHeight });
+        }
+    }, [selectedCropRatio]);
+
     return (
         <>
             {uploadFile ? (
                 <>
-                    <div className={style.inputContainer}>
-                        <DigitInput
-                            setDigitVal={setCropWidth}
-                            digitVal={cropWidth}
-                            labelText="Crop width"
-                        />
-                        <DigitInput
-                            setDigitVal={setCropHeight}
-                            digitVal={cropHeight}
-                            labelText="Crop height"
-                        />
-                    </div>
+                    <CropInputs
+                        setSelectedCropRatio={setSelectedCropRatio}
+                        selectedCropRatio={selectedCropRatio}
+                        setCropWidth={setCropWidth}
+                        cropWidth={cropWidth}
+                        setCropHeight={setCropHeight}
+                        cropHeight={cropHeight}
+                    />
                     <CropPreview
                         uploadFile={uploadFile}
                         setUploadFile={setUploadFile}
