@@ -1,0 +1,43 @@
+/* Buttons */
+
+.buttonContainer {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.clearBtn:hover,
+.downloadBtn:hover {
+    opacity: 0.7;
+}
+
+.clearBtn:active,
+.downloadBtn:active {
+    opacity: 0.7;
+    outline: black 1px solid;
+}
+
+.downloadBtn {
+    position: relative;
+    z-index: 2;
+    outline: black 2px solid;
+    background-color: #a4b465;
+    height: 20px;
+    padding: 3px 7px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.clearBtn {
+    position: relative;
+    z-index: 2;
+    outline: black 2px solid;
+    background-color: #be5b50;
+    height: 20px;
+    padding: 3px 7px;
+    border-radius: 20px;
+    cursor: pointer;
+}

@@ -1,6 +1,6 @@
 import ReactCrop, { centerCrop, Crop, makeAspectCrop } from "react-image-crop";
 import style from "./CropPreview.module.css";
-import { Dispatch, SetStateAction, SyntheticEvent, useRef } from "react";
+import { Dispatch, RefObject, SetStateAction, SyntheticEvent } from "react";
 import { IFileUpload } from "../../views/CropImage";
 
 interface IProps {
@@ -11,6 +11,7 @@ interface IProps {
     setCrop: Dispatch<SetStateAction<Crop>>;
     minDiamention: number;
     aspectRatio: number;
+    imgRef: RefObject<HTMLImageElement | null>;
 }
 
 export default function CropPreview({
@@ -21,11 +22,9 @@ export default function CropPreview({
     setCrop,
     minDiamention,
     aspectRatio,
+    imgRef,
 }: IProps) {
-    const imgRef = useRef<HTMLImageElement>(null);
-
     // Image reader
-
     function onImageLoad(e: SyntheticEvent<HTMLImageElement>) {
         const { width, height, naturalWidth, naturalHeight } = e.currentTarget;
         imgRef.current = e.currentTarget;
@@ -42,59 +41,8 @@ export default function CropPreview({
         setCrop(centredCrop);
     }
 
-    // Download crop handler
-
-    function getCroppedImg() {
-        if (!imgRef.current || !crop.width || !crop.height) return;
-
-        const canvas = document.createElement("canvas");
-        const scaleX = imgRef.current.naturalWidth / imgRef.current.width;
-        const scaleY = imgRef.current.naturalHeight / imgRef.current.height;
-        canvas.width = Math.round(crop.width * scaleX);
-        canvas.height = Math.round(crop.height * scaleY);
-        const ctx = canvas.getContext("2d");
-
-        ctx?.drawImage(
-            imgRef.current,
-            crop.x * scaleX,
-            crop.y * scaleY,
-            crop.width * scaleX,
-            crop.height * scaleY,
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-        canvas.toBlob((blob) => {
-            if (!blob) return;
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "cropped-image.jpg";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }, "image/jpeg");
-    }
-
     return (
         <div className={style.cropContainer}>
-            <div className={style.buttonContainer}>
-                <span
-                    className={style.clearBtn}
-                    onClick={() => setUploadFile(null)}
-                >
-                    Clear image
-                </span>
-                <span
-                    className={style.downloadBtn}
-                    onClick={() => getCroppedImg()}
-                >
-                    Download Cropped Image
-                </span>
-            </div>
             <ReactCrop
                 className={style.cropComponent}
                 crop={crop}

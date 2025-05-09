@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UploadFile from "../elements/UploadFile/UploadFile";
 import { Crop } from "react-image-crop";
 import CropPreview from "../elements/CropPreview/CropPreview";
 import style from "./CropImage.module.css";
 import CropInputs from "../elements/CropInputs/CropInputs";
+import HeadarTitle from "../elements/HeaderTitle/HeaderTitle";
+import CropButtons from "../elements/CropButtons/CropButtons";
 
 export interface IFileUpload {
     fileUpload: File | null;
@@ -26,6 +28,8 @@ export default function CropImage() {
 
     const aspectRatio = 1;
     const minDiamention = 150;
+
+    const imgRef = useRef<HTMLImageElement>(null);
 
     const [crop, setCrop] = useState<Crop>({
         unit: "px", // Can be 'px' or '%'
@@ -59,8 +63,9 @@ export default function CropImage() {
 
     return (
         <>
+            <HeadarTitle />
             {uploadFile ? (
-                <>
+                <section className={style.cropSection}>
                     <CropInputs
                         setSelectedCropRatio={setSelectedCropRatio}
                         selectedCropRatio={selectedCropRatio}
@@ -68,6 +73,11 @@ export default function CropImage() {
                         cropWidth={cropWidth}
                         setCropHeight={setCropHeight}
                         cropHeight={cropHeight}
+                    />
+                    <CropButtons
+                        setUploadFile={setUploadFile}
+                        imgRef={imgRef}
+                        crop={crop}
                     />
                     <CropPreview
                         uploadFile={uploadFile}
@@ -77,8 +87,9 @@ export default function CropImage() {
                         setCrop={setCrop}
                         minDiamention={minDiamention}
                         aspectRatio={aspectRatio}
+                        imgRef={imgRef}
                     />
-                </>
+                </section>
             ) : (
                 <UploadFile
                     uploadFile={uploadFile}
