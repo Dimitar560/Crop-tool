@@ -1,3 +1,11 @@
+.cropSection {
+    background-color: #27548a;
+    margin: 50px;
+    padding: 25px;
+    border-radius: 50px;
+    outline: #27548ac2 solid 5px;
+}
+
 .errorTxt {
     display: flex;
     justify-content: center;

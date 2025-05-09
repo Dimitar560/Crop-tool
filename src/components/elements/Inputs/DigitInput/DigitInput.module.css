@@ -5,13 +5,16 @@
 
 .inputContainer > input {
     padding-left: 15px;
-    height: 25px;
+    height: 30px;
     border-radius: 25px;
     margin-top: 5px;
+    min-width: 200px;
     outline: none;
     border: 1px solid black;
 }
 
 .inputContainer > label {
-    margin-left: 10px;
+    margin-left: 15px;
+    font-size: 0.8rem;
+    color: #f3f3e0;
 }

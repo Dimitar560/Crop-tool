@@ -5,7 +5,9 @@
 }
 
 .dropDownContainer > label {
-    margin-left: 10px;
+    margin-left: 15px;
+    font-size: 0.8rem;
+    color: #f3f3e0;
 }
 
 .dropDownInput {

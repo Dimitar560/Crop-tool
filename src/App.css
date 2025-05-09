@@ -1,6 +1,11 @@
 body {
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
     font-family: sans-serif;
     background-color: #f3f3e0;
+}
+
+h1 {
+    margin: 0;
 }

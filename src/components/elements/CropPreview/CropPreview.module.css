@@ -3,61 +3,25 @@
 .cropContainer {
     display: flex;
     flex-flow: column nowrap;
-    max-width: 700px;
-    max-height: 700px;
+    max-width: 1000px;
+    max-height: 1000px;
     justify-content: center;
     align-items: center;
     margin: 50px auto;
     gap: 20px;
 }
 
-/* Buttons */
-
-.buttonContainer {
-    display: flex;
-    flex-flow: row wrap;
-    gap: 20px;
-}
-
-.clearBtn:hover,
-.downloadBtn:hover {
-    opacity: 0.7;
-}
-
-.clearBtn:active,
-.downloadBtn:active {
-    opacity: 0.7;
-    outline: black 1px solid;
-}
-
-.downloadBtn {
-    position: relative;
-    z-index: 2;
-    outline: black 2px solid;
-    background-color: #a4b465;
-    height: 20px;
-    padding: 3px 7px;
-    border-radius: 20px;
-    cursor: pointer;
-}
-
-.clearBtn {
-    position: relative;
-    z-index: 2;
-    outline: black 2px solid;
-    background-color: #be5b50;
-    height: 20px;
-    padding: 3px 7px;
-    border-radius: 20px;
-    cursor: pointer;
-}
-
 /* Crop and image container */
 
-.cropComponent,
+.cropComponent {
+    max-width: 1000px;
+    max-height: 1000px;
+    background-color: #f3f3e0;
+}
+
 .imgComponent {
-    object-fit: contain;
-    max-width: 700px;
-    max-height: 700px;
-    background-color: #fff;
+    max-width: 150px;
+    min-height: 150px;
+    object-fit: cover;
+    overflow: hidden;
 }

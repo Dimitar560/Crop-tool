@@ -1,0 +1,14 @@
+.headarTitleContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #27548a;
+    height: 60px;
+    margin-bottom: 25px;
+}
+
+.headarTitleContainer > h1 {
+    color: #f3f3e0;
+    margin-left: 35px;
+    font-size: 5rem;
+}
