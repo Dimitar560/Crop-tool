@@ -1,19 +1,19 @@
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import style from "./UploadFile.module.css";
 import useDropOutside from "../../hooks/useDropOutside";
 import fileSizeCheck from "../../helpers/fileSizeCheck";
 import fileFormatCheck from "../../helpers/fileFormatCheck";
-import { IFileUpload } from "../../views/CropImage";
 import helperFormatText from "../../helpers/helperFormatText";
+import useUploadDataContext from "../../hooks/useUploadDataContext";
 
 interface IProps {
-    uploadFile: IFileUpload | null;
-    setUploadFile: Dispatch<SetStateAction<IFileUpload | null>>;
+    minDiamention: number;
     fileSizeLimit: number;
     fileFormatsArray: string[];
 }
 
-export default function UploadFile({ uploadFile, setUploadFile, fileSizeLimit, fileFormatsArray }: IProps) {
+export default function UploadFile({ fileSizeLimit, fileFormatsArray, minDiamention }: IProps) {
+    const { uploadFile, setUploadFile } = useUploadDataContext();
     const [styleSwitcher, setStyleSwitcher] = useState(style.fileInputOverlay);
     const [hintText, setHintText] = useState("Drag'n'drop a file");
     const [errorDetection, setErrorDetection] = useState(false);
@@ -29,12 +29,28 @@ export default function UploadFile({ uploadFile, setUploadFile, fileSizeLimit, f
             const file = e.target.files![0];
             const reader = new FileReader();
             reader.addEventListener("load", () => {
+                const imgElement = new Image();
                 const imageUrl = reader.result?.toString() || "";
-                setUploadFile({
-                    fileUpload: e.target.files && e.target.files[0],
-                    fileName: e.target.files && e.target.files[0].name,
-                    fileSize: e.target.files && e.target.files[0].size,
-                    fileUrl: imageUrl,
+                imgElement.src = imageUrl;
+                // Checks if the image is within the correct amount of pixels
+                imgElement.addEventListener("load", (el) => {
+                    const { naturalWidth, naturalHeight } = el.currentTarget as HTMLImageElement;
+                    if (naturalWidth < minDiamention || naturalHeight < minDiamention) {
+                        setErrorDetection(true);
+                        errorHandler(
+                            `Image must be ${minDiamention}x${minDiamention} pixels`,
+                            style.notSupportedFileFormat
+                        );
+                        setUploadFile(null);
+                        return;
+                    } else {
+                        setUploadFile({
+                            fileUpload: e.target.files && e.target.files[0],
+                            fileName: e.target.files && e.target.files[0].name,
+                            fileSize: e.target.files && e.target.files[0].size,
+                            fileUrl: imageUrl,
+                        });
+                    }
                 });
             });
             reader.readAsDataURL(file);

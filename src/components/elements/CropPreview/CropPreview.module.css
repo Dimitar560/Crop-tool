@@ -13,6 +13,12 @@
 
 /* Crop and image container */
 
+.cropComponent,
+.imgComponent {
+    object-fit: cover;
+    overflow: hidden;
+}
+
 .cropComponent {
     max-width: 1000px;
     max-height: 1000px;
@@ -22,6 +28,4 @@
 .imgComponent {
     max-width: 150px;
     min-height: 150px;
-    object-fit: cover;
-    overflow: hidden;
 }

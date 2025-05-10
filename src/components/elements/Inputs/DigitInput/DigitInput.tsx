@@ -1,13 +1,14 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect } from "react";
 import style from "./DigitInput.module.css";
 
 interface IProps {
     setDigitVal: Dispatch<SetStateAction<string | null>>;
     digitVal: string | null;
     labelText: string;
+    clearValue?: boolean;
 }
 
-export default function DigitInput({ setDigitVal, digitVal, labelText }: IProps) {
+export default function DigitInput({ setDigitVal, digitVal, labelText, clearValue }: IProps) {
     function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
         let val = e.target.value;
         const numberRegEx = /[^0-9]/g;
@@ -21,6 +22,12 @@ export default function DigitInput({ setDigitVal, digitVal, labelText }: IProps)
 
         setDigitVal(val);
     }
+
+    useEffect(() => {
+        if (clearValue) {
+            setDigitVal("");
+        }
+    }, [clearValue, setDigitVal]);
 
     return (
         <div className={style.inputContainer}>

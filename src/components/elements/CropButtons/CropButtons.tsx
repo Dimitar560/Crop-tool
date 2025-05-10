@@ -1,15 +1,15 @@
-import { Dispatch, RefObject, SetStateAction } from "react";
+import { RefObject } from "react";
 import style from "./CropButtons.module.css";
-import { IFileUpload } from "../../views/CropImage";
 import { Crop } from "react-image-crop";
+import useUploadDataContext from "../../hooks/useUploadDataContext";
 
 interface IProps {
-    setUploadFile: Dispatch<SetStateAction<IFileUpload | null>>;
     imgRef: RefObject<HTMLImageElement | null>;
     crop: Crop;
 }
 
-export default function CropButtons({ setUploadFile, imgRef, crop }: IProps) {
+export default function CropButtons({ imgRef, crop }: IProps) {
+    const { setUploadFile } = useUploadDataContext();
     // Download crop handler
 
     function getCroppedImg() {
