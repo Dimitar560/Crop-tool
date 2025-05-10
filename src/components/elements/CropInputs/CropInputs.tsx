@@ -30,16 +30,22 @@ export default function CropInputs({
                 placeholder="Select pixel ratio"
                 labelText="Pixel ratio"
             />
-            <DigitInput
-                setDigitVal={setCropWidth}
-                digitVal={cropWidth}
-                labelText="Crop width"
-            />
-            <DigitInput
-                setDigitVal={setCropHeight}
-                digitVal={cropHeight}
-                labelText="Crop height"
-            />
+            {selectedCropRatio === "freeForm" ? (
+                <>
+                    <DigitInput
+                        setDigitVal={setCropWidth}
+                        digitVal={cropWidth}
+                        labelText="Crop width"
+                    />
+                    <DigitInput
+                        setDigitVal={setCropHeight}
+                        digitVal={cropHeight}
+                        labelText="Crop height"
+                    />
+                </>
+            ) : (
+                <></>
+            )}
         </div>
     );
 }

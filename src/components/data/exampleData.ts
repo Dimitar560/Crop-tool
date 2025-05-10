@@ -1,4 +1,5 @@
 const exampleData: { title: string; value: string }[] = [
+    { title: "Free form", value: "freeForm" },
     { title: "Porcelain shop - 670x670px", value: "670x670" },
     { title: "Facebook cover - 812x312px", value: "812x312" },
     { title: "Facebook ad - 720x720px", value: "720x720" },

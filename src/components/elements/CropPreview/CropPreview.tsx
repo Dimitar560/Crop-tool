@@ -1,41 +1,30 @@
 import ReactCrop, { centerCrop, Crop, makeAspectCrop } from "react-image-crop";
-import style from "./CropPreview.module.css";
 import { Dispatch, RefObject, SetStateAction, SyntheticEvent } from "react";
-import { IFileUpload } from "../../views/CropImage";
+import useUploadDataContext from "../../hooks/useUploadDataContext";
+import style from "./CropPreview.module.css";
 
 interface IProps {
-    uploadFile: IFileUpload | null;
-    setUploadFile: Dispatch<SetStateAction<IFileUpload | null>>;
-    setDimentionError: Dispatch<SetStateAction<string>>;
     crop: Crop;
     setCrop: Dispatch<SetStateAction<Crop>>;
-    minDiamention: number;
+    minDiamentionWidth: number;
+    minDiamentionHeight: number;
     aspectRatio: number;
     imgRef: RefObject<HTMLImageElement | null>;
 }
 
 export default function CropPreview({
-    uploadFile,
-    setUploadFile,
-    setDimentionError,
     crop,
     setCrop,
-    minDiamention,
+    minDiamentionWidth,
+    minDiamentionHeight,
     aspectRatio,
     imgRef,
 }: IProps) {
     // Image reader
+    const { uploadFile } = useUploadDataContext();
     function onImageLoad(e: SyntheticEvent<HTMLImageElement>) {
-        const { width, height, naturalWidth, naturalHeight } = e.currentTarget;
+        const { width, height } = e.currentTarget;
         imgRef.current = e.currentTarget;
-        if (naturalWidth < minDiamention || naturalHeight < minDiamention) {
-            setDimentionError(`Image must be ${minDiamention}x${minDiamention} pixels`);
-            setTimeout(() => {
-                setDimentionError("");
-            }, 5000);
-            setUploadFile(null);
-            return;
-        }
         const crop = makeAspectCrop({ unit: "px", width: 670 }, aspectRatio, width, height);
         const centredCrop = centerCrop(crop, width, height);
         setCrop(centredCrop);
@@ -51,8 +40,8 @@ export default function CropPreview({
                 }}
                 keepSelection
                 aspect={aspectRatio}
-                minWidth={minDiamention}
-                minHeight={minDiamention}
+                minWidth={minDiamentionWidth}
+                minHeight={minDiamentionHeight}
                 ruleOfThirds
             >
                 <img
