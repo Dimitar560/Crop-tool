@@ -3,8 +3,8 @@
 .cropContainer {
     display: flex;
     flex-flow: column nowrap;
-    max-width: 1000px;
-    max-height: 1000px;
+    max-width: 1350px;
+    max-height: 1350px;
     justify-content: center;
     align-items: center;
     margin: 50px auto;
@@ -20,8 +20,8 @@
 }
 
 .cropComponent {
-    max-width: 1000px;
-    max-height: 1000px;
+    max-width: 1350px;
+    max-height: 1350px;
     background-color: #f3f3e0;
 }
 

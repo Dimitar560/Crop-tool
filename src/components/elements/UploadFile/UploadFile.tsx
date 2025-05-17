@@ -67,7 +67,7 @@ export default function UploadFile({ fileSizeLimit, fileFormatsArray, minDiament
 
     // Stops the error to default timer if new file is uploaded
     useEffect(() => {
-        let errorTimer: number;
+        let errorTimer: ReturnType<typeof setTimeout>;
 
         if (!uploadFile && errorDetection) {
             errorTimer = setTimeout(() => {
