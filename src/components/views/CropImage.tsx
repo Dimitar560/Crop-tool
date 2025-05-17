@@ -25,10 +25,10 @@ export default function CropImage() {
     // Crop element state
     const [crop, setCrop] = useState<Crop>({
         unit: "px", // Can be 'px' or '%'
-        x: 25,
-        y: 25,
-        width: 670,
-        height: 670,
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
     });
 
     // Crop width and height setters
@@ -70,23 +70,6 @@ export default function CropImage() {
         }
     }, [selectedCropRatio]);
 
-    // Crop diamention handler
-
-    function cropDiamentionHandler(type: "width-input" | "width-dropDown" | "height-input" | "height-dropDown") {
-        switch (type) {
-            case "width-input":
-                return +cropWidth! && +cropWidth!;
-            case "width-dropDown":
-                return +selectedCropRatio.split?.("x")[0];
-            case "height-input":
-                return +cropHeight! && +cropHeight!;
-            case "height-dropDown":
-                return +selectedCropRatio.split?.("x")[1];
-            default:
-                return 0;
-        }
-    }
-
     return (
         <>
             <title>Crop tool</title>
@@ -108,16 +91,6 @@ export default function CropImage() {
                     <CropPreview
                         crop={crop}
                         setCrop={setCrop}
-                        minDiamentionWidth={
-                            selectedCropRatio !== "freeForm"
-                                ? cropDiamentionHandler("width-dropDown")
-                                : cropDiamentionHandler("width-input")
-                        }
-                        minDiamentionHeight={
-                            selectedCropRatio !== "freeForm"
-                                ? cropDiamentionHandler("height-dropDown")
-                                : cropDiamentionHandler("height-input")
-                        }
                         aspectRatio={aspectRatio}
                         imgRef={imgRef}
                     />

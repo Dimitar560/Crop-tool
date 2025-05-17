@@ -1,0 +1,36 @@
+.loaderContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    padding-top: 20%;
+    background: rgba(0, 0, 0, 0.618);
+    z-index: 2;
+    user-select: none;
+}
+
+.loaderContainer .spinner {
+    width: 150px;
+    height: 150px;
+    margin: auto;
+    border: 8px solid;
+    border-color: #ffff55 transparent #9400d3 transparent;
+    border-radius: 50%;
+    animation: spin-anim 1.2s linear infinite;
+}
+
+.loaderContainer > span {
+    color: #f3f3e0;
+    font-size: 1.5rem;
+}
+
+@keyframes spin-anim {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
